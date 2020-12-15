@@ -183,7 +183,7 @@ VectorXf QuadEstimatorEKF::PredictState(VectorXf curState, float dt, V3F accel, 
   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
     
   // This is not the full EKF. 
-  // It's just the g function of EKF, but since deltaT is small, we ignore accelerations completely 
+  // It's just the g function of EKF 
   // Run with just this code to see effect of model noise (inaccuracies). Since we assume perfect IMU  
 
   V3F accelerationsInInertialFrame = attitude.Rotate_BtoI(accel);
@@ -289,9 +289,9 @@ void QuadEstimatorEKF::Predict(float dt, V3F accel, V3F gyro)
   gPrime(1, 4) = dt;
   gPrime(2, 5) = dt;
 
-  gPrime(3, 6) = (gPrime(0, 0) * accel.x + gPrime(0, 1) * accel.y + gPrime(0, 2) * accel.z)*dt;
-  gPrime(4, 6) = (gPrime(1, 0) * accel.x + gPrime(1, 1) * accel.y + gPrime(1, 2) * accel.z) * dt;
-  gPrime(5, 6) = (gPrime(2, 0) * accel.x + gPrime(2, 1) * accel.y + gPrime(2, 2) * accel.z) * dt;
+  gPrime(3, 6) = (RbgPrime(0, 0) * accel.x + RbgPrime(0, 1) * accel.y + RbgPrime(0, 2) * accel.z)*dt;
+  gPrime(4, 6) = (RbgPrime(1, 0) * accel.x + RbgPrime(1, 1) * accel.y + RbgPrime(1, 2) * accel.z) * dt;
+  gPrime(5, 6) = (RbgPrime(2, 0) * accel.x + RbgPrime(2, 1) * accel.y + RbgPrime(2, 2) * accel.z) * dt;
 
   MatrixXf Gt = gPrime;
   MatrixXf GtTranspose = Gt.transpose();
