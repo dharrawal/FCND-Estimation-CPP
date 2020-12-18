@@ -223,7 +223,7 @@ float QuadControl::AltitudeControl(float posZCmd, float velZCmd, float posZ, flo
 }
 
 // returns a desired acceleration in global frame
-V3F QuadControl::LateralPositionControl(V3F posCmd, V3F velCmd, V3F pos, V3F vel, V3F accelCmdFF, float dt)
+V3F QuadControl::LateralPositionControl(V3F posCmd, V3F velCmd, V3F pos, V3F vel, V3F accelCmdFF)
 {
   // Calculate a desired horizontal acceleration based on 
   //  desired lateral position/velocity/acceleration and current pose
@@ -314,7 +314,7 @@ VehicleCommand QuadControl::RunControl(float dt, float simTime)
   float thrustMargin = .1f*(maxMotorThrust - minMotorThrust);
   collThrustCmd = CONSTRAIN(collThrustCmd, (minMotorThrust+ thrustMargin)*4.f, (maxMotorThrust-thrustMargin)*4.f);
   
-  V3F desAcc = LateralPositionControl(curTrajPoint.position, curTrajPoint.velocity, estPos, estVel, curTrajPoint.accel, dt);
+  V3F desAcc = LateralPositionControl(curTrajPoint.position, curTrajPoint.velocity, estPos, estVel, curTrajPoint.accel);
   
   V3F desOmega = RollPitchControl(desAcc, estAtt, collThrustCmd);
   desOmega.z = YawControl(curTrajPoint.attitude.Yaw(), estAtt.Yaw());
